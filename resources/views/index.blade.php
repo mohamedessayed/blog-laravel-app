@@ -16,6 +16,14 @@
         @endforeach
     </ul>
 
+    <h3>user list </h3>
+
+    @forelse (['Ahmed','Walid'] as $item)
+        <p>user called: {{$item}}</p>
+    @empty
+        <p>there is no user yet</p>
+    @endforelse
+
     @if(false)
     
         <h2>image caption</h2>
