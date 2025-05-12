@@ -12,7 +12,7 @@ class BookController extends Controller
      */
     public function index()
     {
-        //
+        // return books table recordes from db
         $result = Book::all();
 
         return view('dashboard.book.index',compact('result'));
@@ -33,6 +33,32 @@ class BookController extends Controller
     public function store(Request $request)
     {
         //
+
+        $request->validate([
+            "bookname"=>"required|string|unique:books,book_name|min:3",
+            "price"=>"required|integer|min:1",
+            "description"=>'nullable|string|min:20',
+            "type"=>'required|in:story,pome,litrture'
+        ]);
+
+        try {
+            //code...
+            Book::create([
+                "book_name"=>$request->bookname,
+                "book_price"=>$request->price,
+                "description"=>$request->description,
+                "type"=>$request->type,
+            ]);
+
+            return redirect()->route('book.index')->with('message','Saved successfully!');
+            
+        } catch (\Throwable $th) {
+            //throw $th;
+            
+            return back()->with('errorMassage',$th->getMessage());
+        }
+
+
     }
 
     /**

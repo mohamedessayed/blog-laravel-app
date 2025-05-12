@@ -3,38 +3,40 @@
 
 @section('root')
     <div class="container">
+      <div class="my-3">
+        <a href="{{route('book.create')}}" class="btn btn-primary">Create new book</a>
+      </div>
         <div class="table-responsive">
             @if (count($result) > 0)
             <table class="table">
                 <thead>
                   <tr>
                     <th scope="col">#</th>
-                    <th scope="col">First</th>
-                    <th scope="col">Last</th>
+                    <th scope="col">title</th>
+                    <th scope="col">type</th>
+                    <th scope="col">price</th>
                     <th scope="col">Handle</th>
                   </tr>
                 </thead>
                 <tbody>
+
+                  @foreach ($result as $item)
                   <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
+                    <th scope="row">{{$loop->iteration}}</th>
+                    <td>{{$item->book_name}}</td>
+                    <td>{{$item->type}}</td>
+                    <td>{{$item->book_price}}</td>
+                    <td>
+                      <button class="btn btn-danger">Delete</button>
+                      <button class="btn btn-warning">Edit</button>
+                      <button class="btn btn-info">View</button>
+                    </td>
                   </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td>John</td>
-                    <td>Doe</td>
-                    <td>@social</td>
-                  </tr>
+                  @endforeach
+                  
+                  
                 </tbody>
-              </table>
+            </table>
             @else
                 <x-state.empty-state />
             @endif
