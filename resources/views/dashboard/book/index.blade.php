@@ -4,6 +4,7 @@
 @section('root')
     <div class="container">
       <x-alerts.success />
+      <x-alerts.error />
       <div class="my-3">
         <a href="{{route('book.create')}}" class="btn btn-primary">Create new book</a>
       </div>
@@ -28,9 +29,13 @@
                     <td>{{$item->type}}</td>
                     <td>{{$item->book_price}}</td>
                     <td>
-                      <button class="btn btn-danger">Delete</button>
-                      <button class="btn btn-warning">Edit</button>
-                      <button class="btn btn-info">View</button>
+                      <form class="d-inline" method="post" action="{{route('book.delete',$item->id)}}">
+                        @csrf
+                        @method('DELETE')
+                      <button type="submit" class="btn btn-danger">Delete</button>
+                      </form>
+                      <a href="{{route('book.edit',$item->id)}}" class="btn btn-warning">Edit</a>
+                      <a href="{{route('book.view',$item->id)}}" class="btn btn-info">View</a>
                     </td>
                   </tr>
                   @endforeach
