@@ -3,6 +3,7 @@
 
 @section('root')
     <div class="container">
+      <x-alerts.success />
       <div class="my-3">
         <a href="{{route('book.create')}}" class="btn btn-primary">Create new book</a>
       </div>
