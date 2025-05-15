@@ -17,6 +17,17 @@
             <a class="nav-link" href="{{route('app.service')}}">services</a>
           </li>
         </ul>
+
+            @guest
+              <a class="nav-link mx-1" href="{{route('login')}}">Login</a>
+              <a class="nav-link mx-1" href="{{route('signup')}}">Sign up</a>   
+            @endguest
+
+            @auth
+                <a class="nav-link mx-1" href="{{route('logout')}}">Logout</a>
+                <a class="nav-link mx-1" href="{{route('book.index')}}">Dashbord</a> 
+            @endauth
+
         
       </div>
     </div>
