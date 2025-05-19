@@ -44,17 +44,26 @@ class AuthController extends Controller
         $request->validate([
             'fullname'=>'required|string|min:9',
             'email'=>'required|email:dns.rfc|unique:users,email',
-            'password'=>'required|string|min:8'
+            'password'=>'required|string|min:8',
+            'phone'=>'required|string|min:11'
         ]);
 
         try {
-            User::create([
+            $user = User::create([
                 'name'=>$request->fullname,
                 'email'=>$request->email,
                 'password'=>$request->password
             ]);
 
-        return back()->with('message','User created successfully!');
+            // $phone = Phone::create([
+            //    'phone'=>$request->phone,
+            //    'user_id'=>$user->id 
+            // ]);
+
+            $user->phone()->create(['phone'=>$request->phone]);
+
+
+            return back()->with('message','User created successfully!');
 
         } catch (\Throwable $th) {
             //throw $th;
