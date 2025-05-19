@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Auther;
 use Illuminate\Http\Request;
 use App\Models\Book;
 use PhpParser\Node\Stmt\TryCatch;
@@ -25,7 +26,13 @@ class BookController extends Controller
     public function create()
     {
         //
-        return view('dashboard.book.create');
+        // $authers = Auther::all(); //get all columns
+        // $authers = Auther::select('auther_name','id')->get(); //get only 'auther_name','id'
+        $authers = Auther::pluck('auther_name','id'); //get only 'auther_name','id'
+
+        // dd($authers);
+
+        return view('dashboard.book.create',compact('authers'));
     }
 
     /**
@@ -39,7 +46,8 @@ class BookController extends Controller
             "bookname"=>"required|string|unique:books,book_name|min:3",
             "price"=>"required|integer|min:1",
             "description"=>'nullable|string|min:20',
-            "type"=>'required|in:story,pome,litrture'
+            "type"=>'required|in:story,pome,litrture',
+            'auther'=>'required|exists:authers,id'
         ]);
 
         try {
@@ -49,6 +57,7 @@ class BookController extends Controller
                 "book_price"=>$request->price,
                 "description"=>$request->description,
                 "type"=>$request->type,
+                "auther_id"=>$request->auther
             ]);
 
             return redirect()->route('book.index')->with('message','Saved successfully!');

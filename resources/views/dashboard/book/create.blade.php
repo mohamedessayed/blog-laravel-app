@@ -41,6 +41,25 @@
                 <div class="alert alert-danger">{{ $message }}</div>
             @enderror
         </div>
+
+
+        <div class="mb-3">
+          <label for="auther" class="form-label">auther</label>
+            <select class="form-select" id="auther" name="auther" aria-label="Default select example">
+                <option selected value="">Open this select menu</option>
+                @foreach ($authers as $key => $value)
+                    <option {{old('auther') === $key ? 'selected':''}} value="{{$key}}">{{$value}}</option>
+                @endforeach
+                
+              </select>
+
+              @error('auther')
+                <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
+        </div>
+
+
+
         <div class="mb-3">
             <label for="description" class="form-label">description</label>
             <textarea name="description" class="form-control" id="description" cols="30" rows="10">{{old('description')}}</textarea>

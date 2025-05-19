@@ -15,6 +15,7 @@
                   <tr>
                     <th scope="col">#</th>
                     <th scope="col">title</th>
+                    <th scope="col">auther</th>
                     <th scope="col">type</th>
                     <th scope="col">price</th>
                     <th scope="col">Handle</th>
@@ -26,6 +27,7 @@
                   <tr>
                     <th scope="row">{{$loop->iteration}}</th>
                     <td>{{$item->book_name}}</td>
+                    <td>{{$item->auther?->auther_name ?? 'N/A'}}</td>
                     <td>{{$item->type}}</td>
                     <td>{{$item->book_price}}</td>
                     <td>
