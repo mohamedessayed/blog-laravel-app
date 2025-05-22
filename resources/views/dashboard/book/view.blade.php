@@ -15,7 +15,7 @@
 
         @foreach ($book->users as $user)
             <p>
-                <strong>{{$user->name}}</strong>: {{$user->pivot->comment}}
+                <strong>{{$user->name}}</strong>: {{$user->pivot->comment }}
             </p>
         @endforeach
     </div>
