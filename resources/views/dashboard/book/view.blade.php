@@ -3,6 +3,10 @@
 
 @section('root')
     <div class="container">
+        <div class="my-3">
+            
+            <img src="{{ asset("storage/".$book->image->url) }}" alt="{{$book->book_name}}" width="300">
+        </div>
         <h1>{{$book->book_name}}</h1>
         <div>
             <span>{{$book->type}}</span>

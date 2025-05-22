@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Auther;
 use Illuminate\Http\Request;
 use App\Models\Book;
+use App\Services\StorageHandler;
+use Carbon\Carbon;
+use Nette\Utils\Random;
 use PhpParser\Node\Stmt\TryCatch;
 
 class BookController extends Controller
@@ -47,18 +50,25 @@ class BookController extends Controller
             "price"=>"required|integer|min:1",
             "description"=>'nullable|string|min:20',
             "type"=>'required|in:story,pome,litrture',
-            'auther'=>'required|exists:authers,id'
+            'auther'=>'required|exists:authers,id',
+            'image'=>'required|image|mimes:jpg,png,webp,gif,max:1024'
         ]);
 
         try {
+
+            $filepath = StorageHandler::uploadFile($request->file('image'),'book');
+
+            // dd($filepath);
             //code...
-            Book::create([
+            $book = Book::create([
                 "book_name"=>$request->bookname,
                 "book_price"=>$request->price,
                 "description"=>$request->description,
                 "type"=>$request->type,
                 "auther_id"=>$request->auther
             ]);
+
+            $book->image()->create(['url'=>$filepath]);
 
             return redirect()->route('book.index')->with('message','Saved successfully!');
             
@@ -99,10 +109,19 @@ class BookController extends Controller
             "bookname"=>"required|string|unique:books,book_name,$book->id|min:3",
             "price"=>"required|integer|min:1",
             "description"=>'nullable|string|min:20',
-            "type"=>'required|in:story,pome,litrture'
+            "type"=>'required|in:story,pome,litrture',
+            'image'=>'nullable|image|mimes:jpg,png,webp,gif,max:1024'
+
         ]);
 
         try {
+            
+            if ($request->hasFile('image')) {
+                # code...
+                $filepath = StorageHandler::uploadFile($request->file('image'),'book');
+                $book->image()->update(['url'=>$filepath]);
+            }
+
             //code...
             $book->update([
                 "book_name"=>$request->bookname,
