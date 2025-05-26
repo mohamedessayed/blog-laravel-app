@@ -43,3 +43,5 @@ Route::prefix('dashboard')->group(function(){
 
 });
 
+
+Route::get('test',[WebsiteController::class,'test_api']);
