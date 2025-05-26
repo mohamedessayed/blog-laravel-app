@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Traits\ResponseTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
@@ -23,6 +25,20 @@ class AuthController extends Controller
             return $this->sendError($validate->errors());
         }
 
+        $user = User::where('email','=',$request->email)->first();
 
+        if (!$user || !Hash::check($request->password,$user->password)) {
+            # code...
+            return $this->sendError([],'Invalid credentials');
+        }
+
+        $token = $user->createToken('LaravelGrowth-AuthToken')->plainTextToken;
+
+        return $this->sendSuccess(['token'=>$token]);
+    }
+
+    public function logout(){
+        auth('api')->user()->tokens()->delete();
+        return $this->sendSuccess([],'Log out sucessfully');
     }
 }
