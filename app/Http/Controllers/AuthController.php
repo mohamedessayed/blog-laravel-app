@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
@@ -80,6 +81,33 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerate();
         return redirect()->route('home');
+    }
+
+    public function github_login() {
+        return Socialite::driver('github')->redirect();
+    }
+
+    public function github_callback(){
+        $githubUser = Socialite::driver('github')->user();
+
+        $user = User::where('email','=',$githubUser->email)->first();
+
+        if ($user) {
+            # code...
+
+            Auth::login($user);
+        }else{
+            $newUser = User::updateOrCreate([
+                'name'=>$githubUser->nickname,
+                'email'=>$githubUser->email,
+                'password'=>$githubUser->nodeId
+            ]);
+            Auth::login($newUser);
+
+        }
+
+        return redirect()->route('book.index');
+
     }
     
 }

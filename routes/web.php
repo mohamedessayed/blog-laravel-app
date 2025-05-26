@@ -17,6 +17,9 @@ Route::get('/signup',[AuthController::class,'signup'])->name('signup');
 
 Route::post('/login',[AuthController::class,'login_handel'])->name('handel.login');
 Route::post('/signup',[AuthController::class,'signup_handel'])->name('handel.signup');
+
+Route::get('login/github',[AuthController::class,'github_login'])->name('github.login');
+Route::get('github/callback',[AuthController::class,'github_callback']);
 });
 
 Route::get('/logout',[AuthController::class,'logout'])->name('logout')->middleware('auth');
