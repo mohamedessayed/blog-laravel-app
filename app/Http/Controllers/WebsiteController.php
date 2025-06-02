@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\WelcomeMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 
 class WebsiteController extends Controller
@@ -25,12 +28,21 @@ class WebsiteController extends Controller
     function test_api() {
         // $data = Http::get('https://fakestoreapi.com/products')->json();
 
-        $data = Http::withHeaders([
-            'Authorization'=>env('NEWS_API_KEY')
-        ])
-        ->get('https://newsapi.org/v2/everything?q=tesla&from=2025-04-26&sortBy=publishedAt')
-        ->json();
+        return view('pages.test');
 
-        dd($data);
+    }
+
+    function send_mail(){
+        Mail::to('customer@growthlevelacademy.com')->later(now()->addMinute(),new WelcomeMail());
+    }
+
+    function loacal_ar(){
+        Session::put('lang','ar');
+        return back();
+    }
+
+    function loacal_en(){
+        Session::put('lang','en');
+        return back();
     }
 }

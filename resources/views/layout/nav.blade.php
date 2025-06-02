@@ -17,15 +17,21 @@
             <a class="nav-link" href="{{route('app.service')}}">services</a>
           </li>
         </ul>
+              @if (Config::get('app.locale') === 'en')
+                  <a class="nav-link mx-1" href="{{route('ar')}}">ar</a>
+                  @else
+              <a class="nav-link mx-1" href="{{route('en')}}">en</a>
+
+              @endif
 
             @guest
-              <a class="nav-link mx-1" href="{{route('login')}}">Login</a>
-              <a class="nav-link mx-1" href="{{route('signup')}}">Sign up</a>   
+              <a class="nav-link mx-1" href="{{route('login')}}">@lang('app.login')</a>
+              <a class="nav-link mx-1" href="{{route('signup')}}">@lang('app.signup')</a>   
             @endguest
 
             @auth
-                <a class="nav-link mx-1" href="{{route('logout')}}">Logout</a>
-                <a class="nav-link mx-1" href="{{route('book.index')}}">Dashbord</a> 
+                <a class="nav-link mx-1" href="{{route('logout')}}">@lang('app.logout')</a>
+                <a class="nav-link mx-1" href="{{route('book.index')}}">@lang('app.dashboard')</a> 
             @endauth
 
         
